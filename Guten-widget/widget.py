@@ -1,27 +1,6 @@
-
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-from PyQt6.QtWidgets import QApplication, QVBoxLayout, QWidget, QLabel
+from PyQt6.QtWidgets import (QApplication, QVBoxLayout, QWidget,
+                             QLabel, QHBoxLayout, QLineEdit, 
+                             QPushButton, QTextEdit)
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 import sys
@@ -38,11 +17,36 @@ class Window(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
  
-        label = QLabel("Hello World")
-        label.setAlignment(Qt.AlignmentFlag.AlignTop)
-        layout.addWidget(label)
- 
-app = QApplication(sys.argv)
-window = Window()
-window.show()
-sys.exit(app.exec())
+ # create our widgets
+        title_label = QLabel("Guten Search Widget")
+        title_label.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        description = "search the gutenberg project by title,"
+        description += "author, or subject"
+        description_label = QLabel(description)
+
+        search_layout = QHBoxLayout()
+        self.search_field = QLineEdit()
+        search_button = QPushButton("search")
+        search_layout.addWidget(self.search_field)
+        search_layout.addWidget(search_button)
+
+        results_text = QTextEdit("Results")
+
+
+        layout.addWidget(title_label)
+        layout.addWidget(description_label)
+        layout.addLayout(search_layout)
+        layout.addWidget(results_text)
+        
+        
+
+
+def main():
+    app = QApplication(sys.argv)
+    window = Window()
+    window.show()
+    sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()
