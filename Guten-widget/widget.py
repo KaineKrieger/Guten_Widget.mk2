@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (QApplication, QVBoxLayout, QWidget,
 from PyQt6.QtGui import QIcon, QFont 
 from PyQt6.QtCore import Qt
 import sys
- 
+import controller
 class Window(QWidget):
     def __init__(self):
         super().__init__()
@@ -29,20 +29,36 @@ class Window(QWidget):
 
         search_layout = QHBoxLayout()
         self.search_field = QLineEdit()
+        self.search_field.setFont(QFont("Calibri", 12))
+        self.search_field.setPlaceholderText("title, author, or subject")
+        
         search_button = QPushButton("search")
         search_button.setFont(QFont("Calibri", 12))
+        search_button.clicked.connect(self.search)
+
         search_layout.addWidget(self.search_field)
         search_layout.addWidget(search_button)
 
-        results_text = QTextEdit("Results")
-        results_text.setFont(QFont("Calibri", 12))
+        self.results_text = QTextEdit("Results")
+        self.results_text.setFont(QFont("Calibri", 12))
 
         layout.addWidget(title_label)
         layout.addWidget(description_label)
         layout.addLayout(search_layout)
-        layout.addWidget(results_text)
+        layout.addWidget(self.results_text)
         
+    def search(self):
+        """get the search text and use it to make an API call to get
+        the results for a good search"""
         
+        # get the user input
+        search_text = self.search_field.text()
+
+        #make an API call witht he controller script
+        search_results = controller.call_dex(search_text)
+        
+        #display results
+        self.results_text.setText(search_results)
 
 
 def main():
